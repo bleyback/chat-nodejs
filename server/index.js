@@ -10,11 +10,9 @@ import cors from "cors";
 // Initializations
 const app = express();
 const server = http.createServer(app);
-const io = new SocketServer(server, {
-  // cors: {
-  //   origin: "http://localhost:3000",
-  // },
-});
+const io = new SocketServer(server,
+  cors()
+);
 
 // Middlewares
 app.use(cors());
