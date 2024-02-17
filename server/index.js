@@ -10,9 +10,11 @@ import cors from "cors";
 // Initializations
 const app = express();
 const server = http.createServer(app);
-const io = new SocketServer(server,
-  cors()
-);
+const io = new SocketServer(server, {
+  cors: {
+    origin: "*",
+  },
+});
 
 // Middlewares
 app.use(cors());
