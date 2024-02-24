@@ -6,7 +6,6 @@ import { resolve } from "path";
 import cors from "cors";
 import { moviesRouter } from './routers/movies.js'
 
-import configureChatRoutes from "./routers/chat.js"
 
 const app = express();
 const server = http.createServer(app);
@@ -22,7 +21,17 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(express.static(resolve("frontend/dist")));
 
-app.use("/chat",configureChatRoutes(io))
+io.on("connection", (socket) => {
+  console.log(socket.id);
+  socket.on("message", (body) => {
+      socket.broadcast.emit("message", {
+          body,
+          from: socket.id.slice(8),
+      });
+  });
+  
+
+});
 
 app.use(json())
 
