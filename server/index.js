@@ -1,13 +1,13 @@
-import express from "express";
+import express,{json} from "express";
 import http from "node:http";
 import morgan from "morgan";
 import { Server as SocketServer } from "socket.io";
 import { resolve } from "path";
-
-
 import cors from "cors";
+import { moviesRouter } from './routers/movies.js'
 
-// Initializations
+import configureChatRoutes from "./routers/chat.js"
+
 const app = express();
 const server = http.createServer(app);
 const io = new SocketServer(server, {
@@ -16,22 +16,19 @@ const io = new SocketServer(server, {
   },
 });
 
-// Middlewares
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: false }));
 
 app.use(express.static(resolve("frontend/dist")));
 
-io.on("connection", (socket) => {
-console.log(socket.id);
-socket.on("message", (body) => {
-    socket.broadcast.emit("message", {
-    body,
-    from: socket.id.slice(8),
-    });
-});
-});
+app.use("/chat",configureChatRoutes(io))
+
+app.use(json())
+
+app.use('/movies',moviesRouter)
+
+
 const PORT = process.env.PORT ?? 1234
 server.listen(PORT);
 console.log(`server on port ${PORT}`);
