@@ -7,6 +7,7 @@ import cors from "cors";
 import { moviesRouter } from './routers/movies.js'
 import {conexionDB} from './schemas/db.js'
 import routerAuth from "./routers/auth.router.js";
+import cookieParser from "cookie-parser";
 
 
 const app = express();
@@ -19,6 +20,7 @@ const io = new SocketServer(server, {
 conexionDB();
 app.use(cors());
 app.use(morgan("dev"));
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 
 app.use(express.static(resolve("frontend/dist")));
@@ -32,10 +34,13 @@ io.on("connection", (socket) => {
       });
   });
   
-
+  
 });
 
 app.use(json())
+
+
+
 
 app.use('/movies',moviesRouter)
 app.use('/log',routerAuth)
