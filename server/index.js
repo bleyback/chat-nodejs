@@ -11,7 +11,7 @@ import cookieParser from "cookie-parser";
 
 const allowedOrigins = [
   'https://react-projects-blond-ten.vercel.app',
-  'https://react-projects-3hys.vercel.app/',
+  'https://react-projects-3hys.vercel.app',
 
   // Agrega aquí todas las URLs permitidas que desees
 ];
