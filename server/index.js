@@ -18,7 +18,10 @@ const io = new SocketServer(server, {
   },
 });
 conexionDB();
-app.use(cors());
+app.use(cors({
+  origin: 'https://react-projects-blond-ten.vercel.app',
+  credentials:true
+}));
 app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
