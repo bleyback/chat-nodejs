@@ -9,6 +9,12 @@ import {conexionDB} from './schemas/db.js'
 import routerAuth from "./routers/auth.router.js";
 import cookieParser from "cookie-parser";
 
+const allowedOrigins = [
+  'https://react-projects-blond-ten.vercel.app',
+  'https://react-projects-3hys.vercel.app/',
+
+  // Agrega aquí todas las URLs permitidas que desees
+];
 
 const app = express();
 const server = http.createServer(app);
@@ -19,7 +25,7 @@ const io = new SocketServer(server, {
 });
 conexionDB();
 app.use(cors({
-  origin: 'https://react-projects-blond-ten.vercel.app',
+  origin: allowedOrigins,
   credentials:true
 }));
 app.use(morgan("dev"));
